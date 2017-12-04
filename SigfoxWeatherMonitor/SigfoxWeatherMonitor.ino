@@ -25,7 +25,7 @@
 #include "conversions.h"
 
 // Set oneshot to false to trigger continuous mode when you finisched setting up the whole flow
-int oneshot = true;
+int oneshot = false;
 
 #define STATUS_OK     0
 #define STATUS_BMP_KO 1
@@ -49,11 +49,11 @@ SigfoxMessage msg;
 
 void setup() {
 
-  if (oneshot == true) {
-    // Wait for the serial
-    Serial.begin(115200);
-    while (!Serial) {}
-  }
+//  if (oneshot == true) {
+//    // Wait for the serial
+//    Serial.begin(115200);
+//    while (!Serial) {}
+//  }
 
   if (!SigFox.begin()) {
     // Something is really wrong, try rebooting
@@ -65,11 +65,13 @@ void setup() {
   //Send module to standby until we need to send a message
   SigFox.end();
 
-  if (oneshot == true) {
+  //if (oneshot == true) {
     // Enable debug prints and LED indication if we are testing
-    SigFox.debug();
-  }
+    // SigFox.debug();
+  //}
 
+  // SigFox.debug();
+  
 }
 
 void loop() {
@@ -86,9 +88,9 @@ void loop() {
   float temperature = SigFox.internalTemperature();
   // msg.moduleTemperature = convertoFloatToInt16(temperature, 60, -60);
   msg.moduleTemperature = temperature;
-  if (oneshot == true) {
-    Serial.println("Internal temp: " + String(temperature));
-  }
+  // if (oneshot == true) {
+  //  Serial.println("Internal temp: " + String(temperature));
+  //}
 
   // Clears all pending interrupts
   SigFox.status();
@@ -99,9 +101,9 @@ void loop() {
 
   msg.lastMessageStatus = SigFox.endPacket();
 
-  if (oneshot == true) {
-    Serial.println("Status: " + String(msg.lastMessageStatus));
-  }
+  // if (oneshot == true) {
+  //  Serial.println("Status: " + String(msg.lastMessageStatus));
+  // }
 
   SigFox.end();
 
@@ -111,8 +113,8 @@ void loop() {
   //}
 
   //Sleep for 15 minutes
-  // LowPower.sleep(15 * 60 * 1000);
-  LowPower.sleep(2 * 60 * 1000);
+  LowPower.sleep(15 * 60 * 1000);
+  // LowPower.sleep(2 * 60 * 1000);
 }
 
 void reboot() {
