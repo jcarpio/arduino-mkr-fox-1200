@@ -71,7 +71,7 @@ void setup() {
   //}
 
   // SigFox.debug();
-  
+  LowPower.attachInterruptWakeup(RTC_ALARM_WAKEUP, dummy, CHANGE);
 }
 
 void loop() {
@@ -115,6 +115,12 @@ void loop() {
   //Sleep for 15 minutes
   LowPower.sleep(15 * 60 * 1000);
   // LowPower.sleep(2 * 60 * 1000);
+}
+
+void dummy() {
+  // This function will be called once on device wakeup
+  // You can do some little operations here (like changing variables which will be used in the loop)
+  // Remember to avoid calling delay() and long running functions since this functions executes in interrupt context
 }
 
 void reboot() {
