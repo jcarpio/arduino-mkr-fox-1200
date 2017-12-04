@@ -71,6 +71,7 @@ void setup() {
   //}
 
   // SigFox.debug();
+  // Solucionado con https://forum.arduino.cc/index.php?topic=483636.0
   LowPower.attachInterruptWakeup(RTC_ALARM_WAKEUP, dummy, CHANGE);
 }
 
